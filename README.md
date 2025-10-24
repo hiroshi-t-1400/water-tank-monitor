@@ -10,5 +10,5 @@ docker-handson # プロジェクトルート \
 │       └─ php.ini # 今回はナシ \
 ├─ src/ # Laravel本体 \
 ├─ .env \
-│   └─ docker-compose.yml \
+├─ docker-compose.yml \
 └─ README.md \

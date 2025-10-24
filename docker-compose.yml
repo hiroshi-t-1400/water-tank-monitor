@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: ./infra/php/Dockerfile
-    # 命名は任意
+    # 命名は任意 サービス名と混同しないように laravel_src などのほうが適切かも
     container_name: src
     # コンテナ内のデフォルト作業ディレクトリ
 #    working_dir: /var/www/html/src
@@ -27,7 +27,7 @@ services:
   nginx:
     # 最新の安定版を読み込む
     image: nginx:stable-alpine
-    # 命名は任意
+    # 命名は任意 サービス名と混同しないように laravel_src などのほうが適切かも
     container_name: nginx
     # ホストOSの8080をコンテナ内のポート80にマウント
     ports:
@@ -43,6 +43,38 @@ services:
     depends_on:
       - src
 
+  # ----------------------------------------------------
+  # 3. データベースコンテナ (MariaDB)
+  # ----------------------------------------------------
+  db:
+    # MariaDBの最新安定版イメージを使用
+    image: mariadb:latest
+    # 命名は任意 サービス名と混同しないように laravel_src などのほうが適切かも
+    container_name: db
+    # 外部からアクセスするためのポートマウント
+    ports:
+      - "3306:3306"
+    # .env で設定した環境変数を基にDBをセットアップ
+    # ROOT_PASSWORDとPASSWORDはローカル開発環境で簡便化のため同じものを使う
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    # データを永続化するための名前付きボリューム
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel_network
+
+# ネットワーク定義
 networks:
   laravel_network:
     driver: bridge
+
+# ボリューム定義
+# コンテナとは別にDocker管理領域内にdb_dataというストレージを確保させる
+# コンテナの再起動でデータが削除されないようになる
+volumes:
+  db_data:
+    driver: local
