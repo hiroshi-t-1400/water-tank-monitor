@@ -1,6 +1,11 @@
 # PHP 8.4の公式イメージをベースに使用（PHP-FPM版）。Alpineは軽量なディストリビューションです。
 FROM php:8.4-fpm-alpine
 
+# ホストOSのUID/GIDと一致させるためのビルド引数
+# ホストOS上で $ id で取得
+ARG GID=1000
+ARG UID=1000
+
 # システムパッケージの更新と、必要な依存関係のインストール
 RUN apk update && apk add --no-cache \
     git \
@@ -38,8 +43,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # WORKDIR /var/www/html/src
 WORKDIR /var/www/src
 
-# rootでインストール許可
-ENV COMPOSER_ALLON_SUPERUSER 1
+# ホストOSのユーザーとsrcコンテナのユーザーが一致しないために
+# srcのアプリケーション内のファイルを編集できない、もしくはコンテナ内のアプリがアクセスできない問題を解決
+# 新規にappgroupとappuserを作成し、ホストOSのユーザーID=1000と一致させる
+RUN addgroup -g ${GID} appgroup && \
+    adduser -u ${UID} -G appgroup -s /bin/sh -D appuser
+
+# srcコンテナのデフォルト実行ユーザーをappuserに変更してまう場合
+# USER appuser
+
+# Laravelをインストール後に以下をsrcコンテナ内で実行する、外部から実行しても良い
+# chown -R appuser:appgroup /var/www/src && \
+# chmod -R 775 /var/www/src/storage /var/www/src/bootstrap/cache
 
 # FPMの設定はデフォルトで十分ですが、必要に応じてホストからphp.iniをコピーする場所です。
 # 例: COPY ./docker/php/custom.ini /usr/local/etc/php/conf.d/

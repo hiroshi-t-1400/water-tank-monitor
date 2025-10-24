@@ -7,6 +7,10 @@ services:
     build:
       context: .
       dockerfile: ./infra/php/Dockerfile
+      # 適切なUID/GIDをビルド引数として渡す
+      args:
+        UID: 1000
+        GID: 1000
     # 命名は任意 サービス名と混同しないように laravel_src などのほうが適切かも
     container_name: src
     # コンテナ内のデフォルト作業ディレクトリ
