@@ -1,0 +1,19 @@
+services:
+  # ----------------------------------------------------
+  # 1. アプリケーションコンテナ (PHP-FPM 8.4)
+  # ----------------------------------------------------
+  src:
+    # ./infra/php/Dockerfile を使用してイメージをビルド
+    build:
+      context: .
+      dockerfile: ./infra/php/Dockerfile
+    # 命名は任意
+    container_name: src
+    # コンテナ内のデフォルト作業ディレクトリ
+    working_dir: /var/www/html/src
+    # ホストの現在のディレクトリ(Laravelプロジェクトルート)をコンテナ内の/var/www/html/srcにマウント
+    volumes:
+      - ./src:/var/www/html/src
+    # # Nginxと通信するために、同じネットワークに接続、命名は任意
+    # networks:
+    #   - nginx-network
