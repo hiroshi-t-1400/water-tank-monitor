@@ -35,7 +35,8 @@ RUN docker-php-ext-install -j$(nproc) \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # アプリケーションの作業ディレクトリを設定
-WORKDIR /var/www/html/src
+# WORKDIR /var/www/html/src
+WORKDIR /var/www/src
 
 # rootでインストール許可
 ENV COMPOSER_ALLON_SUPERUSER 1

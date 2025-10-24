@@ -10,10 +10,12 @@ services:
     # 命名は任意
     container_name: src
     # コンテナ内のデフォルト作業ディレクトリ
-    working_dir: /var/www/html/src
+#    working_dir: /var/www/html/src
+    working_dir: /var/www/src
     # ホストの現在のディレクトリ(Laravelプロジェクトルート)をコンテナ内の/var/www/html/srcにマウント
     volumes:
-      - ./src:/var/www/html/src
+      # - ./src:/var/www/html/src
+      - ./src:/var/www/src
     # # Nginxと通信するために、同じネットワークに接続、命名は任意
     # networks:
     #   - nginx-network
