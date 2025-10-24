@@ -16,6 +16,33 @@ services:
     volumes:
       # - ./src:/var/www/html/src
       - ./src:/var/www/src
-    # # Nginxと通信するために、同じネットワークに接続、命名は任意
-    # networks:
-    #   - nginx-network
+    # Nginxと通信するために、同じネットワークに接続、命名は任意
+    networks:
+      - laravel_network
+
+  # ----------------------------------------------------
+  # 2. WEBサーバーコンテナ(Nginx)
+  # ----------------------------------------------------
+
+  nginx:
+    # 最新の安定版を読み込む
+    image: nginx:stable-alpine
+    # 命名は任意
+    container_name: nginx
+    # ホストOSの8080をコンテナ内のポート80にマウント
+    ports:
+      - "8080:80"
+    volumes:
+      # srcのLaravelのコードをnginxにもマウント
+        - .:/var/www/src
+      # Nginxの設定ファイルをコンテナ内にバインドマウント
+        - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - laravel_network
+    # PHP-FPMが起動してから起動する
+    depends_on:
+      - src
+
+networks:
+  laravel_network:
+    driver: bridge
