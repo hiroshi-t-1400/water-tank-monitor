@@ -43,6 +43,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # WORKDIR /var/www/html/src
 WORKDIR /var/www/src
 
+# rootでインストール許可
+ENV COMPOSER_ALLON_SUPERUSER 1
+
 # ホストOSのユーザーとsrcコンテナのユーザーが一致しないために
 # srcのアプリケーション内のファイルを編集できない、もしくはコンテナ内のアプリがアクセスできない問題を解決
 # 新規にappgroupとappuserを作成し、ホストOSのユーザーID=1000と一致させる

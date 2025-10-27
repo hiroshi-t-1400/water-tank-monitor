@@ -23,6 +23,8 @@ services:
     # Nginxと通信するために、同じネットワークに接続、命名は任意
     networks:
       - laravel_network
+    depends_on:
+      - db
 
   # ----------------------------------------------------
   # 2. WEBサーバーコンテナ(Nginx)
