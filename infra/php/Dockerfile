@@ -19,7 +19,10 @@ RUN apk update && apk add --no-cache \
     # データベース関連
     mysql-client \
     # よく使われるユーティリティ
-    bash
+    bash \
+    # Node.jsの導入
+    nodejs \
+    npm
 
 # Laravelに必要なPHP拡張機能の有効化
 # pdo_mysql: データベース接続

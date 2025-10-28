@@ -13,6 +13,9 @@ services:
         GID: 1000
     # 命名は任意 サービス名と混同しないように laravel_src などのほうが適切かも
     container_name: src
+    # vite開発サーバーのポートをホストに公開する(HMR用)
+    ports:
+      - "5173:5173"
     # コンテナ内のデフォルト作業ディレクトリ
 #    working_dir: /var/www/html/src
     working_dir: /var/www/src
