@@ -53,7 +53,7 @@ RUN addgroup -g ${GID} appgroup && \
     adduser -u ${UID} -G appgroup -s /bin/sh -D appuser
 
 # srcコンテナのデフォルト実行ユーザーをappuserに変更してまう場合
-# USER appuser
+USER appuser
 
 # Laravelをインストール後に以下をsrcコンテナ内で実行する、外部から実行しても良い
 # chown -R appuser:appgroup /var/www/src && \
