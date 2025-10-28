@@ -16,6 +16,8 @@ services:
     # vite開発サーバーのポートをホストに公開する(HMR用)
     ports:
       - "5173:5173"
+      # Viteサーバーがアクセスするためにポート80(nginx)をマウント
+      - "80:80"
     # コンテナ内のデフォルト作業ディレクトリ
 #    working_dir: /var/www/html/src
     working_dir: /var/www/src

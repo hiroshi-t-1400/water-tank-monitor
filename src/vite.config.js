@@ -24,8 +24,5 @@ export default defineConfig({
         watch: {
             usePolling: true,
         },
-        // Docker desktop for windows ,WSLの環境のためかwebsocket通信の段階でポート接続が上手く解決できないっぽい
-        // ホストからのアクセスを全て許可として解決、本番サーバーではセキュリティ面で不可
-        host: true,
     }
 });
