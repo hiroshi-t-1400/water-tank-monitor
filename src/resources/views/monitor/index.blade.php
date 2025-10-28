@@ -21,7 +21,7 @@
     </head>
 
     <body>
-        
+
         monitorのindex
         {{--@dd($datas)--}}
         @foreach ($datas as $value)
@@ -31,8 +31,8 @@
             data2 : {{ $value->data2 }}
             data3 : {{ $value->data3 }}
             data4 : {{ $value->data4 }}
-            average : {{ $value->average % 2d }}
-        </div>    
+            average : {{ $value->average }}
+        </div>
         @endforeach
     </body>
 </html>
