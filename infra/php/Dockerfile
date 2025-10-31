@@ -18,8 +18,11 @@ RUN apk update && apk add --no-cache \
     $PHPIZE_DEPS \
     # データベース関連
     mysql-client \
+    # Node.js
+    nodejs \
+    npm \
     # よく使われるユーティリティ
-    bash
+    bash 
 
 # Laravelに必要なPHP拡張機能の有効化
 # pdo_mysql: データベース接続
@@ -43,9 +46,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # WORKDIR /var/www/html/src
 WORKDIR /var/www/src
 
-# rootでインストール許可
-ENV COMPOSER_ALLON_SUPERUSER 1
-
 # ホストOSのユーザーとsrcコンテナのユーザーが一致しないために
 # srcのアプリケーション内のファイルを編集できない、もしくはコンテナ内のアプリがアクセスできない問題を解決
 # 新規にappgroupとappuserを作成し、ホストOSのユーザーID=1000と一致させる
@@ -53,7 +53,7 @@ RUN addgroup -g ${GID} appgroup && \
     adduser -u ${UID} -G appgroup -s /bin/sh -D appuser
 
 # srcコンテナのデフォルト実行ユーザーをappuserに変更してまう場合
-# USER appuser
+USER appuser
 
 # Laravelをインストール後に以下をsrcコンテナ内で実行する、外部から実行しても良い
 # chown -R appuser:appgroup /var/www/src && \

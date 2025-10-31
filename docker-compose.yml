@@ -13,6 +13,11 @@ services:
         GID: 1000
     # 命名は任意 サービス名と混同しないように laravel_src などのほうが適切かも
     container_name: src
+    ports:
+      # Vite開発サーバーのポートをホストに公開
+      - '5173:5173'
+      # Laravelアプリケーションのポートも公開
+      - '80:80'
     # コンテナ内のデフォルト作業ディレクトリ
 #    working_dir: /var/www/html/src
     working_dir: /var/www/src
